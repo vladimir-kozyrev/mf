@@ -17,7 +17,7 @@ func GetTargets(f *os.File) ([]string, error) {
 	for scanner.Scan() {
 		line := scanner.Text()
 		if isTargetDeclaration(line) {
-			targets = append(targets, line)
+			targets = append(targets, removeAllAfterFirstColon(line))
 		}
 	}
 
@@ -28,7 +28,7 @@ func GetTargets(f *os.File) ([]string, error) {
 	return targets, nil
 }
 
-const targetDeclarationRegexpPattern = "^[a-z].*:"
+const targetDeclarationRegexpPattern = "^[a-z_]+:"
 
 func isTargetDeclaration(s string) bool {
 	match, err := regexp.MatchString(targetDeclarationRegexpPattern, s)
@@ -39,20 +39,22 @@ func isTargetDeclaration(s string) bool {
 	return match
 }
 
-func RemoveAllAfterFirstColon(s string) string {
+func removeAllAfterFirstColon(s string) string {
 	return strings.Split(s, ":")[0]
 }
 
 func GetTargetsWithContent(f *os.File) ([]*dto.Target, error) {
 	var inTarget bool
-	var currTarget *dto.Target
 	var targets []*dto.Target
+	var currTarget *dto.Target
 
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		line := scanner.Text()
 		if isTargetDeclaration(line) {
+			currTarget = &dto.Target{}
 			currTarget.Declaration = line
+			currTarget.Name = removeAllAfterFirstColon(line)
 			inTarget = true
 			continue
 		}
@@ -62,13 +64,17 @@ func GetTargetsWithContent(f *os.File) ([]*dto.Target, error) {
 			} else {
 				targets = append(targets, currTarget)
 				inTarget = false
-				currTarget = &dto.Target{}
+				currTarget = nil
 			}
 		}
 	}
 
 	if err := scanner.Err(); err != nil {
 		return nil, err
+	}
+
+	if currTarget != nil {
+		targets = append(targets, currTarget)
 	}
 
 	return targets, nil
