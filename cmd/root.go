@@ -12,7 +12,10 @@ import (
 func init() {
 	rootCmd.AddCommand(listCmd)
 	rootCmd.AddCommand(showCmd)
+	rootCmd.PersistentFlags().StringVarP(&makefilePath, "file", "f", "Makefile", "path to Makefile")
 }
+
+var makefilePath string
 
 var rootCmd = &cobra.Command{
 	Use:   "mf",
@@ -24,7 +27,7 @@ var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "lists Makefile targets",
 	Run: func(cmd *cobra.Command, args []string) {
-		f, err := os.Open("Makefile") // TODO allow specifying the Makefile path via an argument
+		f, err := os.Open(makefilePath)
 		if err != nil {
 			helpers.PrintToStderrAndExit(err, 1)
 		}
@@ -50,7 +53,7 @@ var showCmd = &cobra.Command{
 			helpers.PrintToStderrAndExit(errMsg, 1)
 		}
 
-		f, err := os.Open("Makefile") // TODO allow specifying the Makefile path via an argument
+		f, err := os.Open(makefilePath)
 		if err != nil {
 			helpers.PrintToStderrAndExit(err, 1)
 		}
