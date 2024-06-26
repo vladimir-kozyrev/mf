@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/vladimir-kozyrev/mfh/dto"
+	"github.com/vladimir-kozyrev/mf/dto"
 )
 
 func GetTargets(f *os.File) ([]string, error) {

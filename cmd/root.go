@@ -5,8 +5,8 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/vladimir-kozyrev/mfh/helpers"
-	"github.com/vladimir-kozyrev/mfh/parse"
+	"github.com/vladimir-kozyrev/mf/helpers"
+	"github.com/vladimir-kozyrev/mf/parse"
 )
 
 func init() {
@@ -15,9 +15,9 @@ func init() {
 }
 
 var rootCmd = &cobra.Command{
-	Use:   "mfh",
+	Use:   "mf",
 	Short: "Makefile helper",
-	Long:  `mfh shows you the contents of Makefile targets without the need to open and scan the file with your own eyes 👀`,
+	Long:  `mf shows you the contents of Makefile targets without the need to open and scan the file with your own eyes 👀`,
 }
 
 var listCmd = &cobra.Command{

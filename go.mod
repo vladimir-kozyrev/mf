@@ -1,4 +1,4 @@
-module github.com/vladimir-kozyrev/mfh
+module github.com/vladimir-kozyrev/mf
 
 go 1.22.3
 
