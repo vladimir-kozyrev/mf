@@ -10,6 +10,11 @@ import (
 	"github.com/vladimir-kozyrev/mf/dto"
 )
 
+const (
+	targetDeclarationRegexpPattern = "^[a-z_-]+:"
+	targetContentRegexpPattern     = "^\t"
+)
+
 func GetTargets(f *os.File) ([]string, error) {
 	var targets []string
 
@@ -27,8 +32,6 @@ func GetTargets(f *os.File) ([]string, error) {
 
 	return targets, nil
 }
-
-const targetDeclarationRegexpPattern = "^[a-z_]+:"
 
 func isTargetDeclaration(s string) bool {
 	match, err := regexp.MatchString(targetDeclarationRegexpPattern, s)
@@ -79,8 +82,6 @@ func GetTargetsWithContent(f *os.File) ([]*dto.Target, error) {
 
 	return targets, nil
 }
-
-const targetContentRegexpPattern = "^\t"
 
 func isTargetContent(s string) bool {
 	match, err := regexp.MatchString(targetContentRegexpPattern, s)
