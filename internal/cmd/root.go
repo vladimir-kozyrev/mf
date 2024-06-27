@@ -5,8 +5,8 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/vladimir-kozyrev/mf/helpers"
-	"github.com/vladimir-kozyrev/mf/parse"
+	"github.com/vladimir-kozyrev/mf/internal/helpers"
+	"github.com/vladimir-kozyrev/mf/internal/parse"
 )
 
 func init() {

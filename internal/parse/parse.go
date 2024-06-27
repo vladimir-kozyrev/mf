@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/vladimir-kozyrev/mf/dto"
+	"github.com/vladimir-kozyrev/mf/internal/dto"
 )
 
 const (
