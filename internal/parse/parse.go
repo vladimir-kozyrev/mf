@@ -6,14 +6,18 @@ import (
 	"os"
 	"regexp"
 	"strings"
-
-	"github.com/vladimir-kozyrev/mf/internal/dto"
 )
 
 const (
 	targetDeclarationRegexpPattern = "^[a-z_-]+:"
 	targetContentRegexpPattern     = "^\t"
 )
+
+type target struct {
+	Name        string
+	Declaration string
+	Content     string
+}
 
 func GetTargets(f *os.File) ([]string, error) {
 	var targets []string
@@ -46,16 +50,16 @@ func removeAllAfterFirstColon(s string) string {
 	return strings.Split(s, ":")[0]
 }
 
-func GetTargetsWithContent(f *os.File) ([]*dto.Target, error) {
+func GetTargetsWithContent(f *os.File) ([]*target, error) {
 	var inTarget bool
-	var targets []*dto.Target
-	var currTarget *dto.Target
+	var targets []*target
+	var currTarget *target
 
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		line := scanner.Text()
 		if isTargetDeclaration(line) {
-			currTarget = &dto.Target{}
+			currTarget = &target{}
 			currTarget.Declaration = line
 			currTarget.Name = removeAllAfterFirstColon(line)
 			inTarget = true

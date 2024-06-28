@@ -1,11 +1,11 @@
-package helpers
+package cmd
 
 import (
 	"fmt"
 	"os"
 )
 
-func PrintToStderrAndExit(x any, code int) {
+func printToStderrAndExit(x any, code int) {
 	fmt.Fprintln(os.Stderr, x)
 	os.Exit(code)
 }

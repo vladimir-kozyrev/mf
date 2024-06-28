@@ -5,7 +5,6 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/vladimir-kozyrev/mf/internal/helpers"
 	"github.com/vladimir-kozyrev/mf/internal/parse"
 )
 
@@ -29,13 +28,13 @@ var listCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		f, err := os.Open(makefilePath)
 		if err != nil {
-			helpers.PrintToStderrAndExit(err, 1)
+			printToStderrAndExit(err, 1)
 		}
 		defer f.Close()
 
 		targets, err := parse.GetTargets(f)
 		if err != nil {
-			helpers.PrintToStderrAndExit(err, 1)
+			printToStderrAndExit(err, 1)
 		}
 
 		for _, t := range targets {
@@ -50,18 +49,18 @@ var showCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) != 1 {
 			errMsg := fmt.Sprintf("show subcommand expects 1 argument, got: %v", args)
-			helpers.PrintToStderrAndExit(errMsg, 1)
+			printToStderrAndExit(errMsg, 1)
 		}
 
 		f, err := os.Open(makefilePath)
 		if err != nil {
-			helpers.PrintToStderrAndExit(err, 1)
+			printToStderrAndExit(err, 1)
 		}
 		defer f.Close()
 
 		targets, err := parse.GetTargetsWithContent(f)
 		if err != nil {
-			helpers.PrintToStderrAndExit(err, 1)
+			printToStderrAndExit(err, 1)
 		}
 
 		for _, t := range targets {
@@ -76,6 +75,6 @@ var showCmd = &cobra.Command{
 func Execute() {
 	err := rootCmd.Execute()
 	if err != nil {
-		helpers.PrintToStderrAndExit(err, 1)
+		printToStderrAndExit(err, 1)
 	}
 }
